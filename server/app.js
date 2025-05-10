@@ -34,7 +34,7 @@ app.get('/home', (req,res,next) => {
     res.status(200).json({'message': `user: ${JSON.stringify(req.user,null,2)}`});
 
     next();
-})
+});
 
 // signup route
 app.use('/signup', require('./router/signup.js'));
@@ -44,6 +44,9 @@ app.use('/login',require('./router/login.js'));
 
 // route for movies
 app.use('/movies', require('./router/movie.js'));
+
+// logout route
+app.use('/logout', require('./router/logout.js'));
 
 
 // process.on('uncaughtException')
