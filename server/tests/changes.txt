@@ -1,0 +1,31 @@
+// const handleLogin = (req,res,next) => {
+//     const {email,password} = req.body;
+
+//     if(!email || !password) return res.status(400).json({'message': 'Email and Password required'});
+
+//     passport.authenticate('local', {
+//         // failureFlash: true,
+//         // failureRedirect: '/signup',
+//         // successFlash: true,
+//         // failureMessage: true,
+//         // successRedirect:
+//     });
+
+//     next();
+// };
+
+// const handleLogin = () => {
+//     passport.Authenticator('local', {
+//         //options'// failureFlash: true,
+//         // failureRedirect: '/signup',
+//         // successFlash: true,
+//         // failureMessage: true,
+//         // successRedirect:
+//     },)
+// }
+
+##############################
+// to create auth for different strategies, create routesie
+// app.get('/auth/google',
+//   passport.authenticate('google', { scope: ['profile', 'email'] })
+// );
