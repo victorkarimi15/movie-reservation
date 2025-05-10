@@ -7,7 +7,6 @@ const router = express.Router();
 
 router.use(requireAuth);
 
-
 router.get('/', authRoles('user','admin'), getAllMovies);
 
 router.get('/:id', authRoles('user', 'admin'), getMovieById);

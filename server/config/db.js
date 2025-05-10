@@ -17,8 +17,7 @@ const cnUsers = {
     database: 'movie_reservation',
     user: 'movie_recommender',
     password: 'client1',
-    // max: 30 //maximum number of users!
-    // "types" - in case you want to set custom type parsers on the pool level
+    // max: 30 //maximum number of users!, "types" - in case you want to set custom type parsers on the pool level
 };
 
 const cnMovies = {
@@ -27,8 +26,6 @@ const cnMovies = {
     database: 'movie_reservation',
     user: 'movie_recommender',
     password: 'client1'
-    // max: 30 //maximum number of users!
-    // "types" - in case you want to set custom type parsers on the pool level
 };
 
 const cnPayments = {

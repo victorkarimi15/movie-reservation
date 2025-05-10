@@ -12,7 +12,7 @@ const passportLocalMiddleware = (req,res,next) => {
         if(!user) return res.status(401).json(info || {'message': 'login failed'});
 
         req.logIn(user, (err) => {
-            if (err) return next(err); // let express handle it. dont //if (err) throw new Error(err);
+            if (err) return next(err); // let express handle it, return next(new Error("<>"));
 
             return res.redirect(200,'/home');
           });

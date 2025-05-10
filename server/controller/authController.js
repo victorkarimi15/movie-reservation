@@ -1,7 +1,5 @@
 const {userDB} = require('../config/db.js');
-const {v4:uuid} = require('uuid');
 const bcrypt = require('bcrypt');
-
 
 const handleSignup = async (req,res) => {
     const {username,password,confirmPassword} = req.body;

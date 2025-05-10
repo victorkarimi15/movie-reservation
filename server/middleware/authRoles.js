@@ -5,7 +5,6 @@ const authRoles = (...allowedRoles) => {
         } else {
             return res.status(401).json({'message': 'Unauthorized access!'});
         }
-        
     }
 };
 

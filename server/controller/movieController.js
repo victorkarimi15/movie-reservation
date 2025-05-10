@@ -5,7 +5,6 @@ const stkPayment = require('../services/stkPush.js');
 
 const getAllMovies = async (req,res) => {
     try {
-        
         const movieList = await movieDB.manyOrNone('SELECT * FROM movies ORDER BY genre');
 
         res.status(200).send(movieList);
@@ -29,14 +28,12 @@ const getMovieById = async (req,res) => {
 const addMovie =  async(req,res) => {
     const {title,releaseDate,descripton,genre,thumbnail} = req.body;
 
-    // check if movie title is valid
-
+    // ?????????? add mutler to pass the url
     try {
         const listedMovie = await movieDB.any('SELECT movie_id FROM movies WHERE title = $1', [title]);
 
         if(listedMovie) return res.status(400).json({'message': `Moive: ${title}, is already listed!`});
 
-        // let thumbnail = ''; add url for image
         await movieDB.none('INSERT (title,release_date,description,genre,total_seats,thumbnail) INTO movies VALUES($1,$2,$3,$4,$5,$6)',[title,releaseDate,descripton,genre,1000,thumbnail]);
 
         res.status(200).json({'message': 'Movie added Succesfully!'});
