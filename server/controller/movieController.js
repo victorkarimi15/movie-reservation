@@ -27,14 +27,23 @@ const getMovieById = async (req,res) => {
 
 const addMovie =  async(req,res) => {
     const {title,releaseDate,descripton,genre,thumbnail} = req.body;
+    const file = req.file;
 
-    // TODO: ADD THUMBNAIL, SET TO DB AS PATH OF FILE;
     try {
         const listedMovie = await movieDB.any('SELECT movie_id FROM movies WHERE title = $1', [title]);
 
-        if(listedMovie) return res.status(400).json({'message': `Moive: ${title}, is already listed!`});
+        if(listedMovie.length > 0) {
+            return res.status(400).json({'message': `Moive: ${title}, is already listed!`});
+        }
 
-        await movieDB.none('INSERT (title,release_date,description,genre,total_seats,thumbnail) INTO movies VALUES($1,$2,$3,$4,$5,$6)',[title,releaseDate,descripton,genre,1000,thumbnail]);
+        if(!file) { return res.statue(400).json({'message': 'Thumbnail file required'});}
+        
+        let query = `
+            INSERT (title,release_date,description,genre,total_seats,thumbnail)
+            INTO movies VALUES($1,$2,$3,$4,$5,$6)'
+        `
+        // TODO: SET NUMBER OF SEATS
+        await movieDB.none(query,[title,releaseDate,descripton,genre,200,file.destination]);
 
         res.status(200).json({'message': 'Movie added Succesfully!'});
 
