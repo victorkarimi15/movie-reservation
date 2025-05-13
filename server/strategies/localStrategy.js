@@ -4,7 +4,7 @@ const {userDB} = require('../config/db.js');
 const bcrypt = require('bcrypt');
 
 passport.use(new Strategy({
-    // usernameField: 'email'    
+    // TODO: usernameField: 'email'    
 }, async (username,password,done) =>{
 
     try {

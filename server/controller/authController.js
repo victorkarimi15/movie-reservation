@@ -2,6 +2,7 @@ const {userDB} = require('../config/db.js');
 const bcrypt = require('bcrypt');
 
 const handleSignup = async (req,res) => {
+    // FIXME: ADD EMAIL!
     const {username,password,confirmPassword} = req.body;
 
     if(password !== confirmPassword) return res.status(400).json({'message':'Passwords do not match'});

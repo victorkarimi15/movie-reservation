@@ -13,7 +13,7 @@ const stkPayment = async(args) => {
         "PartyA": `${args.paymentNumber}`,    
         "PartyB": process.env.PARTYB,    
         "PhoneNumber": `${args.paymentNumber}`,     
-        "CallBackURL": process.env.STKCALLBACK, // ???? change to a relative path
+        "CallBackURL": process.env.STKCALLBACK, // TODO: change to a relative path
         "AccountReference":"Test",    
         "TransactionDesc":"Test"
     };

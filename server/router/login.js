@@ -13,7 +13,7 @@ router.get('/google-auth/callback', passportOauth.authenticate('google',{
     // successMessage: true,
     // failureMessage: true,
     failureRedirect: '/login',
-    successRedirect: '/home'
+    successRedirect: '/home/dashboard'
 }));
 
 module.exports = router;

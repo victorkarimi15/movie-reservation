@@ -28,7 +28,7 @@ const getMovieById = async (req,res) => {
 const addMovie =  async(req,res) => {
     const {title,releaseDate,descripton,genre,thumbnail} = req.body;
 
-    // ?????????? add mutler to pass the url
+    // TODO: ADD THUMBNAIL, SET TO DB AS PATH OF FILE;
     try {
         const listedMovie = await movieDB.any('SELECT movie_id FROM movies WHERE title = $1', [title]);
 
@@ -54,10 +54,12 @@ const reserveMovie = async (req,res) => {
 
         const response = await stkPayment(userData);
 
-        // handle the checking of number of seats prior
-        // confirm payment from the endpoint 
-        // if payment is successful five a nice response
-        // if not give an error
+        /* 
+         TODO: handle the checking of number of seats prior
+         confirm payment from the endpoint 
+         if payment is successful five a nice response
+         if not give an error
+        */
         
     } catch (err) {
         console.log('Error reserving a movie', err);

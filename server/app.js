@@ -11,13 +11,14 @@ const PORT = process.env.PORT;
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-// SET SESSION STORE???????????????????? AND ADD LOGGER
+// TODO: SET SESSION STORE
+// TODO: ADD LOGGER
 app.use(session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 5 // set to a shorter time
+        maxAge: 1000 * 60 * 60 * 24 * 5  // TODO: set to a shorter time
     }
     //store: MongoStore.create({ mongoUrl: "mongodb://localhost/your-db" }),
     // name: SET THE NAME FOR DIFFRENT APPS 
@@ -25,16 +26,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', (req,res,next) => {
-    res.send("<a href='/login/google-auth'>Login with Google</a> \n <a href='/login/'>Login Locally</a>");
-})
-
-app.get('/home', (req,res,next) => {
-    console.log('hey there!');
-    res.status(200).json({'message': `user: ${JSON.stringify(req.user,null,2)}`});
-
-    next();
-});
+// index page
+app.use('/home', require('./router/profile.js'));
 
 // signup route
 app.use('/signup', require('./router/signup.js'));
@@ -46,7 +39,13 @@ app.use('/login',require('./router/login.js'));
 app.use('/movies', require('./router/movie.js'));
 
 // logout route
-app.use('/logout', require('./router/logout.js'));
+app.post('/logout', (req,res) => {
+    req.logOut((err) => {
+        if (err) return next(err);
+
+        res.redirect('/');
+    })
+});
 
 
 // process.on('uncaughtException')

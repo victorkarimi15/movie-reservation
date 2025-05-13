@@ -11,7 +11,7 @@ router.get('/', authRoles('user','admin'), getAllMovies);
 
 router.get('/:id', authRoles('user', 'admin'), getMovieById);
 
-// router.post('/movies/movie?id=movie_id/reserve .....')
+// FIXME: router.post('/movies/movie?id=movie_id/reserve .....')
 // const body = req.query.id
 // router.post('/movies/id=:movie_id/reserve', authRoles('user', 'admin'), reserveMovie);
 router.post('/reserve', authRoles('user', 'admin'), reserveMovie);
