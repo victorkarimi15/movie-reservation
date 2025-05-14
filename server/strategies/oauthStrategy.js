@@ -1,5 +1,6 @@
 const {Strategy} = require('passport-google-oauth20');
 const DB = require('../config/db.js');
+const logger = require('../../logger/index.js');
 
 function oauthStrategy(passport) {
     passport.use(new Strategy({
@@ -8,15 +9,31 @@ function oauthStrategy(passport) {
         callbackURL: 'http://localhost:3000/login/google-auth/callback',
         }, 
         async (accessToken,refreshToken,profile,done) => {
-            let user = await DB.oneOrNone('SELECT id,username,email,user_role FROM movie_users WHERE google_id = $1', [profile.id]);
+            logger.info('user Login attempt in login/google-auth/callback');
+            let user = await DB.oneOrNone(`
+                SELECT id,username,email,user_role 
+                FROM movie_users 
+                WHERE google_id = $1`, 
+                [profile.id]
+            );
 
             if (user === null) {
-                if (!profile.emails || !profile.emails[0].verified) return next(new Error('Email not verified!!'));
+                if (!profile.emails || !profile.emails[0].verified){
+                    logger.warn(`user ${profile.displayName}, Login failed!`, {
+                        reason: 'Email not verified'
+                    });
 
-                console.log('saving new google user to db...');
-                user = await DB.none('INSERT INTO movie_users (username,email,google_id) VALUES ($1,$2,$3)', [profile.displayName,profile._json.email,profile.id]);
+                    return next(new Error('Email not verified!!'));
+                } 
+
+                user = await DB.none(`
+                    INSERT INTO movie_users (username,email,google_id) 
+                    VALUES ($1,$2,$3)`,
+                    [profile.displayName,profile._json.email,profile.id]
+                );
             }
 
+            logger.info(`user ${user.username}, Logged in succesfully!`);
             return done(null,user);
         }
     ));
@@ -27,12 +44,29 @@ function oauthStrategy(passport) {
 
     passport.deserializeUser(async (id,done) => {
         try {
-            const user = await DB.oneOrNone('SELECT id,username,email,user_role FROM movie_users WHERE id = $1',[id]); 
+            const user = await DB.any(`
+                SELECT id,username,email,user_role 
+                FROM movie_users 
+                WHERE id = $1`,
+                [id]
+            ); 
 
-            if(user === null) return done(null,false);
+            if(!user){
+                logger.warn(`user cannot be deserialized`, {
+                    reason: `${id} cannot be found!`
+                });
+
+                return done(null,false);
+            } 
 
             done(null,user); 
         } catch (err) {
+            logger.error('Error in deserializeuser session',{
+                err: err.message,
+                stack: err.stack.split('\n').slice(0, 4).join(' '),
+                context: 'deserialize user function'
+            });
+            
             done(err,{'message': 'Server error'});
         }
     });

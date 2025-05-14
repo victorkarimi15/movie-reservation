@@ -30,8 +30,14 @@ const stkPayment = async(args) => {
 
         return response.data;
     } catch (err) {
-        console.log('Error at stkPayment:', err);
-        return err
+        logger.error('Error in initializing stkpayment', {
+            error: err.message,
+            stack: err.stack.split('\n').slice(0, 4).join(' '),
+            ip: req.ip,
+            agent: req.headers['user-agent']
+        });
+        
+        return next(err)
     }
 };
 

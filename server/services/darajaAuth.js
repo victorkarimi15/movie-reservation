@@ -16,6 +16,12 @@ const getMpesaAccessToken = async () => {
         
         return response.data.access_token;
     } catch (err) {
+        logger.error('Error in getting Mpesa Access Token', {
+            error: err.message,
+            stack: err.stack.split('\n').slice(0, 4).join(' '),
+            ip: req.ip,
+            agent: req.headers['user-agent']
+        });
       return console.error('Error getting Mpesa Access token:',err);  
     }
 };

@@ -3,6 +3,7 @@ require('dotenv').config();
 const session = require('express-session');
 const passport = require('./strategies/passport.js');
 const cookieParser = require('cookie-parser');
+const logger = require('../logger/index.js');
 
 const app = express();
 const PORT = process.env.PORT;
@@ -40,9 +41,25 @@ app.use('/movies', require('./router/movie.js'));
 
 // logout route
 app.post('/logout', (req,res) => {
+    const args = {
+        id: req.user[0].id,
+        agent: req.headers['user-agent'],
+        ip: req.ip,
+        method: req.method,
+        role: req.user[0].user_role
+    };
+
+    console.log(args.role)
+
     req.logOut((err) => {
         if (err) return next(err);
 
+        logger.info(`User ${args.id} logged out successfully!`, {
+            ip: args.ip,
+            method: args.method,
+            agent: args.agent, 
+            role: args.role
+        });
         res.redirect('/');
     })
 });
@@ -50,4 +67,9 @@ app.post('/logout', (req,res) => {
 
 // process.on('uncaughtException')
 
-app.listen(PORT, () => console.log('Server running on port:',PORT));
+app.listen(PORT, () => {
+    console.log('Server running on port:',PORT);
+    // TODO: logger.info(`Server up and running on port ${PORT}`);
+});
+
+

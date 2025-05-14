@@ -1,23 +1,24 @@
-const {createLogger,format,transports} = require('winston');
+const {createLogger,format,transports, error} = require('winston');
+
+const customFormat = format.printf(({timestamp,level,message,...meta}) => {
+    // const metaOutput = Object.keys(meta).length ? JSON.stringify(meta) : '';
+    const metaOutput = JSON.stringify(meta);
+    
+    return `${timestamp} | ${level}: ${message} \t ${metaOutput}`;
+});
+
 const logger = createLogger({
     level: 'debug',
     format: format.combine(
-        format.timestamp(),
-        format.colorize(),
-        format.printf(({timestamp,level,message,...meta}) => {
-            const metaOutput = Object.keys(meta).length ? JSON.stringify(meta) : '';
-            // ${JSON.stringify(meta)}
-            // return `
-            // ${timestamp} ${level}: ${message} ${JSON.stringify(meta)}`;
-            return `
-            ${timestamp} ${level}: ${message} ${metaOutput}`;
-        })
+        format.timestamp({format: 'DD-MM-YY HH:mm:ss'}),
+        // format.colorize(), only for consoles
+        customFormat,
+        format.errors({stack: true})
     ) ,
     transports: [
-        // new (winston.transport.File)({filename: 'system.log'})
-        new transports.Console()
+        // new transports.Console()
+        new transports.File({filename: "./logger/system.log"})
     ]
 });
 
-logger.info('Data to log.', {'xyz': 123, 'id': 42});
-logger.debug('Debugging info here');
+module.exports = logger;

@@ -3,6 +3,7 @@ const initOptions = {
         console.log('\tExecuting query: ', e.query);
     },
     connect(e) {
+        
         console.log('\tConnected to PostgreSQL:',e.client.connectionParameters.database);        
     },
     disconnect(e) {
