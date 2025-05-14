@@ -1,7 +1,7 @@
 const express = require('express');
-const {requireAuth} = require('../controller/authController.js');
-const authRoles = require('../middleware/authRoles.js');
-const {getAllMovies,getMovieById,reserveMovie,confirmReservation, addMovie} = require('../controller/movieController.js');
+const {requireAuth} = require('../controller/auth-controller.js');
+const authRoles = require('../middleware/auth-roles.js');
+const {getAllMovies,getMovieById,reserveMovie,confirmReservation, addMovie} = require('../controller/movie-controller.js');
 const {v4:uuid} = require('uuid');
 const path = require('path');
 const multer = require('multer');

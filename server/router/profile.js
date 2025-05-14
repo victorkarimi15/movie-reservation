@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const logger = require('../../logger/index.js');
-const authRoles = require('../middleware/authRoles.js');
+const authRoles = require('../middleware/auth-roles.js');
 
 
 

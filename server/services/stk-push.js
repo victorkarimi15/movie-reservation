@@ -1,5 +1,5 @@
 const axios = require('axios');
-const getMpesaAccessToken = require('./darajaAuth.js');
+const getMpesaAccessToken = require('./daraja-auth.js');
 const stkPushURL = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
 
 

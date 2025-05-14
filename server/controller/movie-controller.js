@@ -1,7 +1,6 @@
 const DB = require('../config/db.js');
-const stkPayment = require('../services/stkPush.js');
+const stkPayment = require('../services/stk-push.js');
 const logger = require('../../logger/index.js');
-const { head } = require('../router/profile.js');
 
 
 const getAllMovies = async (req,res) => {

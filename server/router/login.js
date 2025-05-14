@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const passportLocalMiddleware = require('../middleware/passportMiddleware.js')
+const passportLocalMiddleware = require('../middleware/passport-middleware.js')
 const passportOauth = require('../strategies/passport.js');
 
 router.post('/', passportLocalMiddleware);
