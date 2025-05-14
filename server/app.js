@@ -1,7 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const session = require('express-session');
-const passport = require('./strategies/localStrategy.js');
+const passport = require('./strategies/passport.js');
 const cookieParser = require('cookie-parser');
 
 const app = express();

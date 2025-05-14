@@ -1,4 +1,4 @@
-const {userDB} = require('../config/db.js');
+const DB = require('../config/db.js');
 const bcrypt = require('bcrypt');
 
 const handleSignup = async (req,res) => {
@@ -11,14 +11,14 @@ const handleSignup = async (req,res) => {
 
     try {
         // check if username is already registered
-        const registered = await userDB.any('SELECT id FROM movie_users WHERE username=$1',[username]);
+        const registered = await DB.any('SELECT id FROM movie_users WHERE username=$1',[username]);
 
         if(registered.length > 0) return res.status(400).json({'message': 'User already registered'});
 
         const email = 'john@example.com';
         const hash = await bcrypt.hash(password, 10);
 
-        await userDB.none('INSERT INTO movie_users (username, email, user_password) VALUES ($1,$2,$3)',
+        await DB.none('INSERT INTO movie_users (username, email, user_password) VALUES ($1,$2,$3)',
             [username,email,hash]
         );
 

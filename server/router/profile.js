@@ -3,6 +3,7 @@ const router = express.Router()
 
 const userProfile = (req,res,next) => {
     // FIXME: get the req.user;
+    res.send(req.headers);
 };
 
 // home dir

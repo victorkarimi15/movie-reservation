@@ -1,11 +1,10 @@
-const {movieDB} = require('../config/db.js');
-const {userDB} = require('../config/db.js');
+const DB = require('../config/db.js');
 const stkPayment = require('../services/stkPush.js');
 
 
 const getAllMovies = async (req,res) => {
     try {
-        const movieList = await movieDB.manyOrNone('SELECT * FROM movies ORDER BY genre');
+        const movieList = await DB.manyOrNone('SELECT * FROM movies ORDER BY genre');
 
         res.status(200).send(movieList);
     } catch (err) {
@@ -16,7 +15,7 @@ const getAllMovies = async (req,res) => {
 const getMovieById = async (req,res) => {
     try {
         if (req.params && req.params.id) {
-            const movie = await movieDB.any('SELECT * FROM movies WHERE movie_id = $1', [req.params.id]);
+            const movie = await DB.any('SELECT * FROM movies WHERE movie_id = $1', [req.params.id]);
 
             res.status(200).send(movie);
         }     
@@ -30,7 +29,7 @@ const addMovie =  async(req,res) => {
     const file = req.file;
 
     try {
-        const listedMovie = await movieDB.any('SELECT movie_id FROM movies WHERE title = $1', [title]);
+        const listedMovie = await DB.any('SELECT movie_id FROM movies WHERE title = $1', [title]);
 
         if(listedMovie.length > 0) {
             return res.status(400).json({'message': `Moive: ${title}, is already listed!`});
@@ -43,7 +42,7 @@ const addMovie =  async(req,res) => {
             INTO movies VALUES($1,$2,$3,$4,$5,$6)'
         `
         // TODO: SET NUMBER OF SEATS
-        await movieDB.none(query,[title,releaseDate,descripton,genre,200,file.destination]);
+        await DB.none(query,[title,releaseDate,descripton,genre,200,file.destination]);
 
         res.status(200).json({'message': 'Movie added Succesfully!'});
 

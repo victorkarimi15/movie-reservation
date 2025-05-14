@@ -11,7 +11,7 @@ const initOptions = {
 };
 
 const pgp = require('pg-promise')(initOptions);
-const cnUsers = {
+const cn = {
     host: 'localhost',
     port: 5432,
     database: 'movie_reservation',
@@ -20,28 +20,12 @@ const cnUsers = {
     // max: 30 //maximum number of users!, "types" - in case you want to set custom type parsers on the pool level
 };
 
-const cnMovies = {
-    host: 'localhost',
-    port: 5432,
-    database: 'movie_reservation',
-    user: 'movie_recommender',
-    password: 'client1'
-};
-
-const cnPayments = {
-    host: 'localhost',
-    port: 5432,
-    database: 'movie_reservation',
-    user: 'movie_recommender',
-    password: 'client1'
-}
 
 // const db = pgp('postgres://john:pass123@localhost:5432/products');
-const userDB = pgp(cnUsers);
-const movieDB = pgp(cnMovies)
-const paymentDB = pgp(cnPayments);
+const DB = pgp(cn);
 
-module.exports = {userDB,movieDB,paymentDB};
+
+module.exports = DB;
 
 
 

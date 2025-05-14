@@ -1,4 +1,4 @@
-const passportLocal = require('../strategies/localStrategy.js');
+const passportLocal = require('../strategies/passport.js');
 
 const passportLocalMiddleware = (req,res,next) => {
     passportLocal.authenticate('local', {
@@ -19,4 +19,4 @@ const passportLocalMiddleware = (req,res,next) => {
     })(req,res,next);
 };
 
-module.exports =passportLocalMiddleware;
+module.exports = passportLocalMiddleware;
