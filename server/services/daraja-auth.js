@@ -1,5 +1,4 @@
 const axios = require('axios');
-require('dotenv').config();
 const CONSUMERKEY = process.env.CONSUMERKEY;
 const CONSUMERSECRET = process.env.CONSUMERSECRET;
 const base64encodedData = Buffer.from(CONSUMERKEY + ':' + CONSUMERSECRET).toString('base64');

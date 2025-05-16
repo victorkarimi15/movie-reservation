@@ -6,7 +6,6 @@ const authRoles = require('../middleware/auth-roles.js');
 
 
 const userProfile = (req,res,next) => {
-    // FIXME: get the req.user;
     const user = req.user[0];
     logger.info(`user ${user.id} accessed /home`,{
             ip: req.ip,

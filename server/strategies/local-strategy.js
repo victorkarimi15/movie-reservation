@@ -5,7 +5,7 @@ const logger = require('../../logger/index.js');
 
 function localStrategy(passport) {
     passport.use(new Strategy({
-        // TODO: usernameField: 'email'    
+        usernameField: 'email'    
         }, async (username,password,done) =>{
 
         try {

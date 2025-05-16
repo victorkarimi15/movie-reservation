@@ -12,13 +12,22 @@ const initOptions = {
 };
 
 const pgp = require('pg-promise')(initOptions);
+
+// const cn = {
+//     host: 'localhost',
+//     port: 5432,
+//     database: 'movie_reservation',
+//     user: 'movie_recommender',
+//     password: 'client1',
+//     // max: 30 //maximum number of users!, "types" - in case you want to set custom type parsers on the pool level
+// };
+
 const cn = {
-    host: 'localhost',
-    port: 5432,
-    database: 'movie_reservation',
-    user: 'movie_recommender',
-    password: 'client1',
-    // max: 30 //maximum number of users!, "types" - in case you want to set custom type parsers on the pool level
+    host: process.env.PGHOST,
+    port: process.env.PGPORT,
+    database: process.env.PGDATABASE,
+    user: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
 };
 
 

@@ -4,8 +4,7 @@ const logger = require('../../logger/index.js');
 
 
 const handleSignup = async (req,res) => {
-    // FIXME: ADD EMAIL!
-    const {username,password,confirmPassword} = req.body;
+    const {username,email,password,confirmPassword} = req.body;
     const user = req.user?.[0] || {id:'anonymous', user_role:'guest'};
 
     if (!username || !password || !confirmPassword) {
@@ -49,8 +48,7 @@ const handleSignup = async (req,res) => {
     } 
 
     try {
-        // TODO: USE EMAIL
-        const registered = await DB.any('SELECT id FROM movie_users WHERE username=$1',[username]);
+        const registered = await DB.any('SELECT id FROM movie_users WHERE email=$1',[email]);
 
         if(registered.length > 0) {
             logger.warn(`user ${user.id} failed login attempt`, {
@@ -64,7 +62,6 @@ const handleSignup = async (req,res) => {
             return res.status(400).json({'message': 'User already registered'});
         } 
 
-        const email = 'john@example.com';// TODO: REMOVE STATIC EMAIL
         const hash = await bcrypt.hash(password, 10);
 
         await DB.none('INSERT INTO movie_users (username, email, user_password) VALUES ($1,$2,$3)',

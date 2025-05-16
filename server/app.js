@@ -4,6 +4,7 @@ const session = require('express-session');
 const passport = require('./strategies/passport.js');
 const cookieParser = require('cookie-parser');
 const logger = require('../logger/index.js');
+const pgSession = require('connect-pg-simple')(session);
 
 const app = express();
 const PORT = process.env.PORT;
@@ -12,20 +13,32 @@ const PORT = process.env.PORT;
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-// TODO: SET SESSION STORE
-// TODO: ADD LOGGER
-app.use(session({
+
+const sess = {
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 5  // TODO: set to a shorter time
-    }
-    //store: MongoStore.create({ mongoUrl: "mongodb://localhost/your-db" }),
-    // name: SET THE NAME FOR DIFFRENT APPS 
-}));
+        maxAge: 1000 * 60 * 60 * 24 *5
+    },
+    store: new pgSession({
+        conObject:{
+            host: process.env.PGHOST,
+            port: process.env.PGPORT,
+            database: process.env.PGDATABASE,
+            user: process.env.PGUSER,
+            password: process.env.PGPASSWORD,
+        },
+        tableName: 'session'
+    })
+};
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+if (process.env.NODE_ENV === 'production') {
+    sess.cookie.secure = true;
+}
 
 // index page
 app.use('/home', require('./router/profile.js'));
