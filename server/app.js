@@ -4,7 +4,6 @@ const session = require('express-session');
 const passport = require('./strategies/passport.js');
 const cookieParser = require('cookie-parser');
 const logger = require('../logger/index.js');
-const pgSession = require('connect-pg-simple')(session);
 
 const app = express();
 const PORT = process.env.PORT;
@@ -13,6 +12,7 @@ const PORT = process.env.PORT;
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+const pgSession = require('connect-pg-simple')(session);
 
 const sess = {
     secret: process.env.SECRET,
@@ -32,6 +32,8 @@ const sess = {
         tableName: 'session'
     })
 };
+
+app.use(session(sess));
 app.use(passport.initialize());
 app.use(passport.session());
 

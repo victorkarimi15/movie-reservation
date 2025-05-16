@@ -11,7 +11,7 @@ function localStrategy(passport) {
         try {
             const user = await DB.one(`
                 SELECT * FROM movie_users 
-                WHERE username = $1`,
+                WHERE email = $1`,
                 [username]
             );
 
